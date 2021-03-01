@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 
+import './sass/index.scss'
+
 import { publish, subscribe, unsubscribe } from './ably'
+import TrisComponent from './components/Tris'
 
 const NEW_USER = 'new user'
 const UPDATE_USERS = 'update users'
@@ -9,6 +12,7 @@ export function App() {
   const [wantedNickname, setWantedNickname] = useState('')
   const [nickname, setNickname] = useState('')
   const [users, setUsers] = useState([])
+  const [selectedCells, setSelectedCells] = useState([])
 
   useEffect(() => {
     if (nickname) {
@@ -76,6 +80,11 @@ export function App() {
           <li key={i}>{user}</li>
         ))}
       </ul>
+
+      <TrisComponent
+        selectedCells={selectedCells}
+        setSelectedCells={setSelectedCells}
+      />
     </div>
   )
 }

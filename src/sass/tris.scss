@@ -1,0 +1,21 @@
+.tris {
+  display: flex;
+  flex-direction: column;
+
+  $size: 40px !default;
+
+  &__row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__cell {
+    border: 1px solid black;
+    width: $size;
+    height: $size;
+
+    &--selected {
+      background-color: red;
+    }
+  }
+}
