@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-
+import ghAvatar from 'gh-avatar';
 import './sass/index.scss'
 
 import { publish, subscribe, unsubscribe } from './ably'
@@ -13,6 +13,26 @@ export function App() {
   const [nickname, setNickname] = useState('')
   const [users, setUsers] = useState([])
   const [selectedCells, setSelectedCells] = useState([])
+  const [avatars, setAvatars] = useState({})
+
+  useEffect(() => {
+
+    // const promiseAll = users.map((user) => ghAvatar(user));
+    // Promise.all(promiseAll).then(() => {
+    //
+    // });
+    //TODO
+    // Se ho una lista posso fare una map ed usare Promise.all per eseguire delle chiamate di rete in parallelo
+    // Come posso invece eseguirle in serie?
+    if (nickname) {
+      ghAvatar(nickname).then(avatar => {
+        setAvatars(avatars => ({
+          ...avatars,
+          [nickname]: avatar
+        }));
+      });
+    }
+  }, [nickname])
 
   useEffect(() => {
     if (nickname) {
@@ -77,7 +97,9 @@ export function App() {
       </form>
       <ul>
         {users.map((user, i) => (
-          <li key={i}>{user}</li>
+          <li key={i}>{user}
+            {avatars[user] && <img width='20px' height='20px' src={avatars[user]}/>}
+          </li>
         ))}
       </ul>
 
