@@ -62,36 +62,32 @@ const TrisComponent = ({ selectedCells = [], setSelectedCells = () => {} }) => {
         setSelectedCells((selectedCells) => selectedCells.concat(idx))
       }
     },
-    [setSelectedCells]
+    [selectedCells, setSelectedCells]
   )
 
   return (
     <div className='tris'>
-      <div className='tris__row'>
-        {[0, 1, 2].map((idx) => (
-          <TrisCell
-            userOneSelectedCell
-            key={idx}
-            cellIdx={idx}
-            handleClickCell={handleClickCell}
-          />
-        ))}
-      </div>
-      <div className='tris__row'>
-        {[3, 4, 5].map((idx) => (
-          <TrisCell
-            userOneSelectedCell
-            key={idx}
-            cellIdx={idx}
-            handleClickCell={handleClickCell}
-          />
-        ))}
-      </div>
-      <div className='tris__row'>
-        {[6, 7, 8].map((idx) => (
-          <TrisCell key={idx} cellIdx={idx} handleClickCell={handleClickCell} />
-        ))}
-      </div>
+      {[0, 1, 2].map((row) => (
+        <div className='tris__row'>
+          {[row * 3, row * 3 + 1, row * 3 + 2].map((idx) => {
+            const selectedCellIndex = selectedCells.findIndex((n) => n === idx)
+            const cellIsSelected = selectedCellIndex > -1
+            return (
+              <TrisCell
+                userOneSelectedCell={
+                  cellIsSelected && selectedCellIndex % 2 === 0
+                }
+                userTwoSelectedCell={
+                  cellIsSelected && selectedCellIndex % 2 === 1
+                }
+                key={idx}
+                cellIdx={idx}
+                handleClickCell={handleClickCell}
+              />
+            )
+          })}
+        </div>
+      ))}
     </div>
   )
 }
